@@ -1,4 +1,4 @@
-# Udacity-ND-Wearther-Journal-App
+# Udacity-ND-Weather-Journal-App
 Full Stack Project made with NodeJS for Back-End and HTML, CSS and JavaScript For Frond-End
 
 #### Technology used: Node, HTML, CSS, Javascript (Vanilla)
