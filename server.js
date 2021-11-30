@@ -19,11 +19,31 @@ app.use(cors());
 // Initialize the main project folder
 app.use(express.static('website'));
 
-
-// Setup Server
-// Set up and Spin up the server
-const port = 8080;
-const server = app.listen(port, () => {
-    console.log(`server is starting on port: ${port}`); // Callback to debug
+// init index.html route
+app.get('/', function(req, res) {
+    res.sendFile('website/index.html');
 });
 
+//init pst rout to add weather data
+app.post('/add', function(req, res) {
+    // Save the request body to a variable
+    const data = req.body;
+    // Add the data to the projectData object
+    projectData['temp'] = data.temp;
+    projectData['date'] = data.date;
+    projectData['content'] = data.content;
+    // Send a response to the client
+    res.send(projectData);
+    console.log(projectData);
+});
+
+// init get rout to get weather data
+app.get('/data', function(req, res) {
+    res.send(projectData);
+});
+
+// Setup Server
+const port = 8080;
+app.listen(port, () => {
+    console.log(`server is starting on port: ${port}`); // Callback to debug
+});
