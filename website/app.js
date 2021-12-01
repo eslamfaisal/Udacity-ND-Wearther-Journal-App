@@ -5,7 +5,7 @@ const submitBtn = document.getElementById('generate');
 
 //create formatted date
 let d = new Date();
-let formattedDate = `${d.getMonth()}/${d.getDate()}/ ${d.getFullYear()}`;
+let formattedDate = `${d.getMonth()}/${d.getDate()}/${d.getFullYear()}`;
 
 
 function getWeatherData(options) {
