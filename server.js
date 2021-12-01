@@ -1,5 +1,9 @@
 // Setup empty JS object to act as endpoint for all routes
-projectData = {};
+weatherData = {
+    temp: "",
+    date: "",
+    content: ""
+};
 
 // Require Express to run server and routes
 const express = require('express');
@@ -16,12 +20,24 @@ app.use(bodyParser.json());
 const cors = require('cors');
 app.use(cors());
 
-// Initialize the main project folder
-app.use(express.static('website'));
+app.use(
+    express.static(
+       'website',
+        {index: "/"}
+    )
+)
+
+app.engine('html', require('ejs').renderFile);
+app.set('view engine', 'ejs');
+app.set('views', __dirname+ '/website');
+
 
 // init index.html route
 app.get('/', function(req, res) {
-    res.sendFile('website/index.html');
+    console.log(JSON.stringify(weatherData))
+    res.render('index.html', {
+        weatherData : weatherData
+    });
 });
 
 //init pst rout to add weather data
@@ -29,17 +45,17 @@ app.post('/add', function(req, res) {
     // Save the request body to a variable
     const data = req.body;
     // Add the data to the projectData object
-    projectData['temp'] = data.temp;
-    projectData['date'] = data.date;
-    projectData['content'] = data.content;
+    weatherData['temp'] = data.temp;
+    weatherData['date'] = data.date;
+    weatherData['content'] = data.content;
     // Send a response to the client
-    res.send(projectData);
-    console.log(projectData);
+    res.send(weatherData);
+    console.log(weatherData);
 });
 
 // init get rout to get weather data
 app.get('/data', function(req, res) {
-    res.send(projectData);
+    res.send(weatherData);
 });
 
 // Setup Server
