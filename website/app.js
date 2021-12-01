@@ -1,11 +1,12 @@
 const baseUrl = 'https://api.openweathermap.org/data/2.5/weather';
 const appId = '0e9649659d59394ad407d8f322863b8a';
+
 const weatherDataForm = document.getElementById('weatherDataForm');
 const submitBtn = document.getElementById('generate');
 
 //create formatted date
 let d = new Date();
-let formattedDate = `${d.getMonth()}/${d.getDate()}/${d.getFullYear()}`;
+let formattedDate = `${d.getMonth()+1}/${d.getDate()}/${d.getFullYear()}`;
 
 
 function getWeatherData(options) {
@@ -17,7 +18,7 @@ function getWeatherData(options) {
         alert('Please enter a zip code and feelings');
         return;
     }
-    const url = `${baseUrl}?zip=${zip},us&appid=${appId}`;
+    const url = `${baseUrl}?zip=${zip},us&appid=${appId}&units=metric`;
 
     fetch(url)
         .then(response => response.json())
@@ -35,7 +36,7 @@ function getWeatherData(options) {
 function extractDataFromResponse(response, feelings) {
     return {
         date: formattedDate,
-        temp: fToC(response.main.temp),
+        temp: (response.main.temp),
         content: feelings
     };
 }
@@ -58,16 +59,8 @@ const getDataFromServer = async (url) => {
 
 function updateUI(data) {
     document.getElementById('date').innerHTML = data.date;
-    document.getElementById('temp').innerHTML = data.temp;
+    document.getElementById('temp').innerHTML = data.temp + '&deg;C';
     document.getElementById('content').innerHTML = data.content;
-}
-
-function fToC(fahrenheit) {
-    const fTemp = fahrenheit;
-    const fToCel = (fTemp - 32) * 5 / 9;
-    const message = fTemp + '\xB0F is ' + fToCel + '\xB0C.';
-    console.log(message);
-    return message;
 }
 
 submitBtn.addEventListener('click', getWeatherData);
