@@ -24,10 +24,10 @@ function getWeatherData(options) {
         .then(data =>
             saveDataInServer('/add', extractDataFromResponse(data, feelings))
         ).then(() =>
-        getDataFromServer('/data')
-    ).then((data) => {
-        updateUI(data)
-    });
+            getDataFromServer('/data')
+        ).then((data) => {
+            updateUI(data)
+        });
 
     weatherDataForm.reset();
 }
